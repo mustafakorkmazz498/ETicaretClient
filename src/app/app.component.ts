@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { CustomToastrService, ToastrMessageType, ToastrPosition } from './services/ui/custom-toastr.service';
+import {
+  CustomToastrService,
+  ToastrMessageType,
+  ToastrPosition,
+} from './services/ui/custom-toastr.service';
 declare var $: any;
 
 @Component({
@@ -10,22 +14,7 @@ declare var $: any;
 })
 export class AppComponent {
   title = 'ETicaretClient';
-  constructor(private toastrService: CustomToastrService) {
-    toastrService.message('Mustafa','Korkmaz',{
-      messageType : ToastrMessageType.Info,
-      position : ToastrPosition.BottomLeft
-    });
-    toastrService.message('Mustafa','Korkmaz',{
-      messageType : ToastrMessageType.Error,
-      position : ToastrPosition.TopRight
-    });
-    toastrService.message('Mustafa','Korkmaz',{
-      messageType : ToastrMessageType.Success,
-      position : ToastrPosition.TopLeft
-    });
-    toastrService.message('Mustafa','Korkmaz',{
-      messageType : ToastrMessageType.Warning,
-      position : ToastrPosition.BottomRight
-    });
-  }
+  constructor(private toastrService: CustomToastrService) {}
 }
+
+$.get('https://localhost:7144/api/products', (data) => console.log(data));
