@@ -24,7 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
-    { provide: 'baseUrl', useValue: 'https://localhost:7144/api', multi: true },
+    { provide: 'baseUrl', useValue: 'http://localhost:7144/api', multi: true },
   ],
   bootstrap: [AppComponent],
 })
