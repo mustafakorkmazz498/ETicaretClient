@@ -9,6 +9,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [ProductsComponent, CreateComponent, ListComponent],
@@ -19,7 +21,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
 })
 export class ProductsModule {}

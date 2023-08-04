@@ -25,7 +25,7 @@ export class HttpClientService {
   ): Observable<T> {
     let url: string = '';
     if (requestParameter.fullEndPoint) url = requestParameter.fullEndPoint;
-    else url = `${this.url(requestParameter)}${id ? `/${id}` : ''}`;
+    else url = `${this.url(requestParameter)}${id ? `/${id}` : ''}${requestParameter.queryString ? `?${requestParameter.queryString}` : ""}`;
 
     return this.httpClient.get<T>(url, { headers: requestParameter.headers });
   }
@@ -36,7 +36,7 @@ export class HttpClientService {
   ): Observable<T> {
     let url: string = '';
     if (requestParameter.fullEndPoint) url = requestParameter.fullEndPoint;
-    else url = `${this.url(requestParameter)}`;
+    else url = `${this.url(requestParameter)}${requestParameter.queryString ? `?${requestParameter.queryString}` : ""}`;
 
     return this.httpClient.post<T>(url, body, {
       headers: requestParameter.headers,
@@ -49,7 +49,7 @@ export class HttpClientService {
   ): Observable<T> {
     let url: string = '';
     if (requestParameter.fullEndPoint) url = requestParameter.fullEndPoint;
-    else url = `${this.url(requestParameter)}`;
+    else url = `${this.url(requestParameter)}${requestParameter.queryString ? `?${requestParameter.queryString}` : ""}`;
     return this.httpClient.put<T>(url, body, {
       headers: requestParameter.headers,
     });
@@ -61,7 +61,7 @@ export class HttpClientService {
   ): Observable<T> {
     let url: string = '';
     if (requestParameter.fullEndPoint) url = requestParameter.fullEndPoint;
-    else url = `${this.url(requestParameter)}/${id}`;
+    else url = `${this.url(requestParameter)}/${id}${requestParameter.queryString ? `?${requestParameter.queryString}` : ""}`;
     return this.httpClient.delete<T>(url, {
       headers: requestParameter.headers,
     });
@@ -71,6 +71,7 @@ export class HttpClientService {
 export class RequestParameters {
   controller?: string;
   action?: string;
+  queryString?: string;
   headers?: HttpHeaders;
   baseUrl?: string;
   fullEndPoint?: string;
