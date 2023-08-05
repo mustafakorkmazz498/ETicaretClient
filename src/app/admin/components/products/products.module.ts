@@ -11,9 +11,14 @@ import {MatButtonModule} from '@angular/material/button';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { DeleteDirective } from 'src/app/directives/admin/delete.directive';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DeleteDialogComponent } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
+import { FileuploadModule } from 'src/app/services/common/fileupload/fileupload.module';
+import { DialogModule } from '@angular/cdk/dialog';
 
 @NgModule({
-  declarations: [ProductsComponent, CreateComponent, ListComponent],
+  declarations: [ProductsComponent, CreateComponent, ListComponent, DeleteDirective],
   imports: [
     CommonModule,
     RouterModule.forChild([{ path: '', component: ProductsComponent }]),
@@ -23,7 +28,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatButtonModule,
     NgxSpinnerModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    DialogModule,
+    FileuploadModule
   ],
 })
 export class ProductsModule {}

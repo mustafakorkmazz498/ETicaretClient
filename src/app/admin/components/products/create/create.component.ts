@@ -7,6 +7,7 @@ import {
   MessageType,
   Position,
 } from 'src/app/services/admin/alertify.service';
+import { FileUploadOptions } from 'src/app/services/common/fileupload/fileupload.component';
 import { ProductService } from 'src/app/services/common/models/product.service';
 
 @Component({
@@ -25,7 +26,15 @@ export class CreateComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  @Output() createdProductBase: EventEmitter<Create_Product> = new EventEmitter();
+  @Output() createdProductBase: EventEmitter<Create_Product> =
+    new EventEmitter();
+  @Output() fileUploadOptions: Partial<FileUploadOptions> = {
+    action: 'upload',
+    controller: 'products',
+    explanation: 'Resimleri sürükleyin veya seçin...',
+    isAdminPage: true,
+    accept: '.png, .jpg, .jpeg, .json',
+  };
 
   create(
     name: HTMLInputElement,
@@ -38,20 +47,24 @@ export class CreateComponent extends BaseComponent implements OnInit {
     create_product.stock = parseInt(stock.value);
     create_product.price = parseFloat(price.value);
 
-    this.productService.create(create_product, () => {
-      this.hideSpinner(SpinnerType.SquareJellyBox);
-      this.alertify.message('Ürün başarıyla eklenmiştir.', {
-        dismissOthers: true,
-        messageType: MessageType.Success,
-        position: Position.TopRight,
-      });
-      this.createdProductBase.emit(create_product);
-    }, errorMessage =>{
-      this.alertify.message(errorMessage,{
-        dismissOthers : true,
-        messageType : MessageType.Error,
-        position : Position.TopRight
-      });
-    });
+    this.productService.create(
+      create_product,
+      () => {
+        this.hideSpinner(SpinnerType.SquareJellyBox);
+        this.alertify.message('Ürün başarıyla eklenmiştir.', {
+          dismissOthers: true,
+          messageType: MessageType.Success,
+          position: Position.TopRight,
+        });
+        this.createdProductBase.emit(create_product);
+      },
+      (errorMessage) => {
+        this.alertify.message(errorMessage, {
+          dismissOthers: true,
+          messageType: MessageType.Error,
+          position: Position.TopRight,
+        });
+      }
+    );
   }
 }
