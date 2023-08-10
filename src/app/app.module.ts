@@ -15,9 +15,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DeleteDialogComponent } from './dialogs/delete-dialog/delete-dialog.component';
 import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upload-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { SelectProductImageDialogComponent } from './dialogs/select-product-image-dialog/select-product-image-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, DeleteDialogComponent, FileUploadDialogComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -41,68 +41,80 @@ export class FileuploadComponent {
   @Input() options: Partial<FileUploadOptions>;
 
   public selectedFiles(files: NgxFileDropEntry[]) {
-    this.files = files;
-    const fileData: FormData = new FormData();
-    for (const file of files) {
-      (file.fileEntry as FileSystemFileEntry).file((_file: File) => {
-        fileData.append(_file.name, _file, file.relativePath);
+    if (files.length > 0) {
+      const fileData: FormData = new FormData();
+      for (const file of files) {
+        (file.fileEntry as FileSystemFileEntry).file((_file: File) => {
+          fileData.append(_file.name, _file, file.relativePath);
+        });
+      }
+  
+      this.dialogService.openDialog({
+        componentType: FileUploadDialogComponent,
+        data: FileUploadDialogState.Yes,
+        afterClosed: () => {
+          this.spinner.show(SpinnerType.SquareJellyBox);
+          this.httpClientService
+            .post(
+              {
+                controller: this.options.controller,
+                action: this.options.action,
+                queryString: this.options.queryString,
+                headers: new HttpHeaders({ responseType: 'blob' }),
+              },
+              fileData
+            )
+            .subscribe(
+              (data) => {
+                const message: string = 'Dosyalar başarıyla yüklenmiştir.';
+                this.handleUploadSuccess(message);
+              },
+              (errorResponse: HttpErrorResponse) => {
+                const message: string =
+                  'Dosyalar yüklenirken beklenmeyen bir hatayla karşılaşılmıştır.';
+                this.handleUploadError(message);
+              }
+            );
+        },
+      });
+    } else {
+      this.files = [];
+    }
+  }
+  
+  private handleUploadSuccess(message: string) {
+    this.spinner.hide(SpinnerType.SquareJellyBox);
+    if (this.options.isAdminPage) {
+      this.alertifyService.message(message, {
+        dismissOthers: true,
+        messageType: MessageType.Success,
+        position: Position.TopRight,
+      })
+    }
+    else {
+      this.customToastrService.message(message, 'Başarılı.', {
+        messageType: ToastrMessageType.Success,
+        position: ToastrPosition.TopRight,
       });
     }
-    this.dialogService.openDialog({
-      componentType: FileUploadDialogComponent,
-      data: FileUploadDialogState.Yes,
-      afterClosed: () => {
-        this.spinner.show(SpinnerType.BallAtom);
-        this.httpClientService
-          .post(
-            {
-              controller: this.options.controller,
-              action: this.options.action,
-              queryString: this.options.queryString,
-              headers: new HttpHeaders({ responseType: 'blob' }),
-            },
-            fileData
-          )
-          .subscribe(
-            (data) => {
-              const message: string = 'Dosyalar başarıyla yüklenmiştir.';
-
-              this.spinner.hide(SpinnerType.BallAtom);
-              if (this.options.isAdminPage) {
-                this.alertifyService.message(message, {
-                  dismissOthers: true,
-                  messageType: MessageType.Success,
-                  position: Position.TopRight,
-                });
-              } else {
-                this.customToastrService.message(message, 'Başarılı.', {
-                  messageType: ToastrMessageType.Success,
-                  position: ToastrPosition.TopRight,
-                });
-              }
-            },
-            (errorResponse: HttpErrorResponse) => {
-              const message: string =
-                'Dosyalar yüklenirken beklenmeyen bir hatayla karşılaşılmıştır.';
-
-              this.spinner.hide(SpinnerType.BallAtom);
-              if (this.options.isAdminPage) {
-                this.alertifyService.message(message, {
-                  dismissOthers: true,
-                  messageType: MessageType.Error,
-                  position: Position.TopRight,
-                });
-              } else {
-                this.customToastrService.message(message, 'Başarısız.', {
-                  messageType: ToastrMessageType.Error,
-                  position: ToastrPosition.TopRight,
-                });
-              }
-            }
-          );
-      },
-    });
   }
+  
+  private handleUploadError(message: string) {
+    this.spinner.hide(SpinnerType.SquareJellyBox);
+    if (this.options.isAdminPage) {
+      this.alertifyService.message(message, {
+        dismissOthers: true,
+        messageType: MessageType.Error,
+        position: Position.TopRight,
+      });
+    } else {
+      this.customToastrService.message(message, 'Başarısız.', {
+        messageType: ToastrMessageType.Error,
+        position: ToastrPosition.TopRight,
+      });
+    }
+  }
+  
 
   // openDialog(afterClosed: any): void {
   //   const dialogRef = this.dialog.open(FileUploadDialogComponent, {

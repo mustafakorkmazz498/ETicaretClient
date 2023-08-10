@@ -43,8 +43,8 @@ export class DeleteDirective {
     const img = _renderer.createElement('img');
     img.setAttribute('src', '../../../../../assets/delete.png');
     img.setAttribute('style', 'cursor: pointer');
-    img.height = 30;
-    img.width = 30;
+    img.height = 25;
+    img.width = 25;
     _renderer.appendChild(element.nativeElement, img);
   }
 
