@@ -12,7 +12,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
     super(spinner);
   }
   ngOnInit(): void {
-    this.showSpinner(SpinnerType.SquareJellyBox);
+    //this.showSpinner(SpinnerType.SquareJellyBox);
   }
 
 }
