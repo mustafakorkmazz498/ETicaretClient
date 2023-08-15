@@ -17,7 +17,6 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     super(spinner);
   }
   ngOnInit(): void {
-    this.showSpinner(SpinnerType.BallAtom);
   }
   m() {
     this.alertify.message('Merhaba', {

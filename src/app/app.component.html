@@ -40,13 +40,31 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" routerLink="register"
+              <a
+                class="nav-link active"
+                aria-current="page"
+                routerLink="register"
+                *ngIf="!authService.isAuthenticated"
                 >Kayıt Ol</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" routerLink="login"
+              <a
+                class="nav-link active"
+                aria-current="page"
+                routerLink="login"
+                *ngIf="!authService.isAuthenticated"
                 >Giriş Yap</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                style="color: red; cursor: pointer"
+                (click)="signOut()"
+                *ngIf="authService.isAuthenticated"
+                >Çıkış Yap</a
               >
             </li>
             <li>
@@ -54,10 +72,11 @@
                 routerLink="admin"
                 class="btn btn-outline-success"
                 type="submit"
+                *ngIf="authService.isAuthenticated"
                 >Yönetim Paneli</a
               >
             </li>
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -73,21 +92,21 @@
                 <li><hr class="dropdown-divider" /></li>
                 <li>
                   <a class="dropdown-item" href="#">Something else here</a>
-                </li>
-              </ul>
+                </li> -->
+              <!-- </ul>
             </li>
             <li class="nav-item">
               <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
+            </li> -->
           </ul>
-          <form class="d-flex" role="search">
+          <!-- <form class="d-flex" role="search">
             <input
               class="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
             />
-          </form>
+          </form> -->
         </div>
       </div>
     </nav>
