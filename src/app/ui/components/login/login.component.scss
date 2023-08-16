@@ -1,0 +1,14 @@
+.button-container {
+    display: flex;
+    align-items: center;
+    margin-right: 50px;
+  }
+
+  .button-container .button {
+    margin-right: 100px; /* İki buton arasındaki boşluğu ayarlayabilirsiniz */
+  }
+
+  .button-container img {
+    width: 30px; /* İstediğiniz boyuta göre ayarlayabilirsiniz */
+    height: 30px; /* İstediğiniz boyuta göre ayarlayabilirsiniz */
+  }

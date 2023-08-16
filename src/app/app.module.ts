@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { JwtModule } from '@auth0/angular-jwt';
 import { LoginComponent } from './ui/components/login/login.component';
 import {
+  FacebookLoginProvider,
   GoogleLoginProvider,
   GoogleSigninButtonModule,
   SocialAuthServiceConfig,
@@ -39,7 +40,7 @@ import {
       },
     }),
     SocialLoginModule,
-    GoogleSigninButtonModule
+    GoogleSigninButtonModule,
   ],
   providers: [
     { provide: 'baseUrl', useValue: 'http://localhost:7144/api', multi: true },
@@ -53,6 +54,10 @@ import {
             provider: new GoogleLoginProvider(
               '373658082974-iiscjg94uj6qju2blj6kj6fhc8jg330b.apps.googleusercontent.com'
             ),
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('3158489781121002'),
           },
         ],
         onError: (err) => console.log(err),
