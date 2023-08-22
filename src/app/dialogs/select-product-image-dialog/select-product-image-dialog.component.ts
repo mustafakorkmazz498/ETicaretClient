@@ -69,6 +69,12 @@ export class SelectProductImageDialogComponent
       },
     });
   }
+  showCase(imageId: string) {
+    this.spinner.show(SpinnerType.SquareJellyBox);
+    this.productService.changeShowcaseImage(imageId, this.data as string, () => {
+      this.spinner.hide(SpinnerType.SquareJellyBox);
+    });
+  }
 }
 
 export enum SelectProductImageState {
