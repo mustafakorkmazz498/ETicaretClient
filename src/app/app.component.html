@@ -34,11 +34,11 @@
                 >Ürünler</a
               >
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link active" aria-current="page" routerLink="basket"
                 >Sepet</a
               >
-            </li>
+            </li> -->
             <li class="nav-item">
               <a
                 class="nav-link active"
@@ -107,6 +107,9 @@
               aria-label="Search"
             />
           </form> -->
+          <div class="d-flex">
+            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" type="submit">Sepet</button>
+          </div>
         </div>
       </div>
     </nav>
@@ -121,3 +124,5 @@
 </div>
 <ngx-spinner size="default" name="s1" type="square-jelly-box"></ngx-spinner>
 <ngx-spinner size="default" name="s2" type="ball-atom"></ngx-spinner>
+
+<app-basket></app-basket>
