@@ -20,9 +20,10 @@ import {
   SocialLoginModule,
 } from '@abacritt/angularx-social-login';
 import { HttpErrorHandlerInterceptorService } from './services/common/http-error-handler-interceptor.service';
+import { DynamicLoadComponentDirective } from './directives/common/dynamic-load-component.directive';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, DynamicLoadComponentDirective],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -45,6 +46,7 @@ import { HttpErrorHandlerInterceptorService } from './services/common/http-error
   ],
   providers: [
     { provide: 'baseUrl', useValue: 'http://localhost:7144/api', multi: true },
+    { provide: 'baseSignalRUrl', useValue: 'http://localhost:7144/', multi: true },
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
