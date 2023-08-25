@@ -1,10 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { async } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { List_Basket_Item } from 'src/app/contracts/basket/list_basket_item';
 import { Update_Basket_Item } from 'src/app/contracts/basket/update_basket_item';
 import { Create_Order } from 'src/app/contracts/order/create_order';
+import {
+  BasketItemDeleteState,
+  BasketItemRemoveDialogComponent,
+} from 'src/app/dialogs/basket-item-remove-dialog/basket-item-remove-dialog.component';
+import {
+  BasketShoppingCompleteDialogComponent,
+  BasketShoppingCompleteState,
+} from 'src/app/dialogs/basket-shopping-complete-dialog/basket-shopping-complete-dialog.component';
+import { DialogService } from 'src/app/services/common/dialog.service';
 import { BasketService } from 'src/app/services/common/models/basket.service';
 import { OrderService } from 'src/app/services/common/models/order.service';
 import {
@@ -26,7 +36,8 @@ export class BasketComponent extends BaseComponent implements OnInit {
     private basketService: BasketService,
     private orderService: OrderService,
     private toastrService: CustomToastrService,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService
   ) {
     super(spinner);
   }
@@ -48,25 +59,44 @@ export class BasketComponent extends BaseComponent implements OnInit {
     await this.basketService.updateQuantity(basketItem);
     this.hideSpinner(SpinnerType.SquareJellyBox);
   }
-  async removeBasketItem(basketItemId: string) {
-    this.showSpinner(SpinnerType.SquareJellyBox);
+  removeBasketItem(basketItemId: string) {
+    $('#basketModal').modal('hide');
+    this.dialogService.openDialog({
+      componentType: BasketItemRemoveDialogComponent,
+      data: BasketItemDeleteState.Yes,
+      afterClosed: async () => {
+        this.showSpinner(SpinnerType.SquareJellyBox);
 
-    await this.basketService.remove(basketItemId);
-    $('.' + basketItemId).fadeOut(500, () =>
-      this.hideSpinner(SpinnerType.SquareJellyBox)
-    );
-  }
-  async shoppingComplete() {
-    this.showSpinner(SpinnerType.SquareJellyBox);
-    const order: Create_Order = new Create_Order();
-    order.address = 'Didim';
-    order.description = 'Deneme açıklama';
-    await this.orderService.create(order);
-    this.hideSpinner(SpinnerType.SquareJellyBox);
-    this.toastrService.message('Sipariş alınmıştır.', 'Sipariş Oluşturuldu!', {
-      messageType: ToastrMessageType.Info,
-      position: ToastrPosition.TopRight,
+        await this.basketService.remove(basketItemId);
+        $('.' + basketItemId).fadeOut(500, () =>
+          this.hideSpinner(SpinnerType.SquareJellyBox)
+        );
+        $('#basketModal').modal('show');
+      },
     });
-    this.router.navigate(['/']);
+  }
+  shoppingComplete() {
+    $('#basketModal').modal('hide');
+    this.dialogService.openDialog({
+      componentType: BasketShoppingCompleteDialogComponent,
+      data: BasketShoppingCompleteState.Yes,
+      afterClosed: async () => {
+        this.showSpinner(SpinnerType.SquareJellyBox);
+        const order: Create_Order = new Create_Order();
+        order.address = 'Didim';
+        order.description = 'Deneme açıklama';
+        await this.orderService.create(order);
+        this.hideSpinner(SpinnerType.SquareJellyBox);
+        this.toastrService.message(
+          'Sipariş alınmıştır.',
+          'Sipariş Oluşturuldu!',
+          {
+            messageType: ToastrMessageType.Info,
+            position: ToastrPosition.TopRight,
+          }
+        );
+        this.router.navigate(['/']);
+      },
+    });
   }
 }

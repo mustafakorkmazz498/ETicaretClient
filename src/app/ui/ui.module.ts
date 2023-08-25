@@ -10,7 +10,7 @@ import { ComponentsModule } from './components/components.module';
     CommonModule,
     ComponentsModule
   ],
-  exports:[
+  exports: [
     ComponentsModule
   ]
 })

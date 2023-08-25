@@ -4,6 +4,7 @@ import { ProductsComponent } from './products.component';
 import { RouterModule } from '@angular/router';
 import { ListComponent } from './list/list.component';
 
+
 @NgModule({
   declarations: [ProductsComponent, ListComponent],
   imports: [
