@@ -5,15 +5,20 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { List_Product } from 'src/app/contracts/list_product';
 import { List_Order } from 'src/app/contracts/order/list_order';
+import { OrderDetailDialogComponent, OrderDetailDialogState } from 'src/app/dialogs/order-detail-dialog/order-detail-dialog.component';
 import { SelectProductImageDialogComponent } from 'src/app/dialogs/select-product-image-dialog/select-product-image-dialog.component';
-import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
+import {
+  AlertifyService,
+  MessageType,
+  Position,
+} from 'src/app/services/admin/alertify.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { OrderService } from 'src/app/services/common/models/order.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
 })
 export class ListComponent extends BaseComponent {
   constructor(
@@ -30,6 +35,7 @@ export class ListComponent extends BaseComponent {
     'userName',
     'totalPrice',
     'createdDate',
+    'viewdetail',
     'delete',
   ];
   dataSource: MatTableDataSource<List_Order> = null;
@@ -49,13 +55,9 @@ export class ListComponent extends BaseComponent {
             position: Position.TopRight,
           })
       );
-    this.dataSource = new MatTableDataSource<List_Order>(
-      allOrders.orders
-    );
+    this.dataSource = new MatTableDataSource<List_Order>(allOrders.orders);
     this.paginator.length = allOrders.totalOrderCount;
   }
-
-
 
   async pageChanged() {
     await this.getOrders();
@@ -65,4 +67,13 @@ export class ListComponent extends BaseComponent {
     await this.getOrders();
   }
 
+  showDetail(id: string) {
+    this.dialogService.openDialog({
+      componentType: OrderDetailDialogComponent,
+      data: id,
+      options: {
+        width:"750px"
+      }
+    })
+  }
 }
